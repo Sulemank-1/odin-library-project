@@ -1,32 +1,44 @@
 const myLibrary = [];
 const containerDiv = document.querySelector(".container");
 
-function Book(title, author, numberOfPages) {
+function Book(title, author, numberOfPages, bookId) {
   this.title = title;
   this.author = author;
   this.numberOfPages = numberOfPages;
+  this.bookId = bookId;
 }
 
-function addBookToLibrary(title, author, numberOfPages) {
-  const newBook = new Book(title, author, numberOfPages);
+function addBookToLibrary(title, author, numberOfPages, bookId) {
+  const newBook = new Book(title, author, numberOfPages, bookId);
   myLibrary.push(newBook);
 }
 
 function displayBooks(library) {
   const i = library.length - 1;
   const cardDiv = document.createElement("div");
-  cardDiv.classList.add("card");
+  cardDiv.setAttribute("class", "card");
   const titleP = document.createElement("p");
-  titleP.classList.add("title");
+  titleP.setAttribute("class", "title");
   const authorP = document.createElement("p");
-  authorP.classList.add("author");
+  authorP.setAttribute("class", "author");
   const numberOfPagesP = document.createElement("p");
-  numberOfPagesP.classList.add("numberOfPages");
+  numberOfPagesP.setAttribute("class", "numberOfPages");
+  const removeButton = document.createElement("button");
+  removeButton.textContent = "remove";
+  removeButton.setAttribute("class", "remove-button");
+  removeButton.setAttribute('data-book-id', myLibrary[i].bookId)
 
   containerDiv.appendChild(cardDiv);
   cardDiv.appendChild(titleP);
   cardDiv.appendChild(authorP);
   cardDiv.appendChild(numberOfPagesP);
+  cardDiv.appendChild(removeButton);
+  cardDiv.setAttribute("data-book-id", myLibrary[i].bookId);
+
+  removeButton.addEventListener('click', function(){
+    cardDiv.remove();
+    myLibrary.splice(i, 1);    
+  })
 
   titleP.innerText = myLibrary[i].title;
   authorP.innerText = myLibrary[i].author;
@@ -52,15 +64,21 @@ const form = document.querySelector("#form");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-
+  
+  const randomBookId = crypto.randomUUID();
+  
   addBookToLibrary(
     titleInput.value,
     authorInput.value,
-    numberOfPagesInput.value
+    numberOfPagesInput.value,
+    randomBookId
   );
+  
   displayBooks(myLibrary);
 
   titleInput.value = "";
   authorInput.value = "";
   numberOfPagesInput.value = "";
+
+ 
 });
