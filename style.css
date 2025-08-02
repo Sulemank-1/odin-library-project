@@ -53,7 +53,7 @@ body{
 }
 
 
-.remove-button{
+.remove-button, .read-btn{
   padding: 5px 8px;
   text-transform: capitalize;
   font-size: 14px;
@@ -67,4 +67,6 @@ body{
 .remove-button:hover{
   border: 0.5px solid black;
 }
+
+
 
